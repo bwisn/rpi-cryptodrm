@@ -4,7 +4,7 @@
 
 ## Features
 
-- Rootfs encryption using LUKS2 .
+- Rootfs encryption using LUKS2.
 - Hardware-bound DRM using the Raspberry Pi’s CPU serial number.
 - Two-step setup process for ease of use.
 - Protects sensitive data on the Raspberry Pi SD card.
@@ -33,7 +33,7 @@ sudo poweroff
    
 ### Stage 2: On the Linux PC
 1. Connect the SD card from RPi to the PC
-2. Check the SD card device (in my case it is ```/dev/sde```)
+2. Find the SD card device name (in my case it is ```/dev/sde```)
 3. Download the script and run it with the SD card device and CPU serial number passed as arguments
 ```bash
 wget https://raw.githubusercontent.com/bwisn/rpi-cryptodrm/refs/heads/master/host-encryptcard.sh
@@ -41,6 +41,38 @@ sudo bash host-encryptcard.sh [device] [serial]
 # sudo bash host-encryptcard.sh /dev/sde 000000000aaaaabbbbccc
 ```
 4. Insert the SD card back to the RPi
+
+## Benchmark
+Tests were done on RPi Zero 2W equipped with Samsung PRO Endurance 2022 64GB U1 V10 card using sdcard test from ```agnostics``` package.
+```
+Run 1
+prepare-file;0;0;17794;34
+seq-write;0;0;18565;4
+seq-read;22993;5;0;0
+rand-4k-write;0;0;1439;359
+rand-4k-read;8117;2029;0;0
+Sequential write speed 18565 KB/sec (target 10000) - PASS
+Random write speed 359 IOPS (target 500) - FAIL
+Random read speed 2029 IOPS (target 1500) - PASS
+Run 2
+prepare-file;0;0;18450;36
+seq-write;0;0;18416;4
+seq-read;23009;5;0;0
+rand-4k-write;0;0;1433;358
+rand-4k-read;7795;1948;0;0
+Sequential write speed 18416 KB/sec (target 10000) - PASS
+Random write speed 358 IOPS (target 500) - FAIL
+Random read speed 1948 IOPS (target 1500) - PASS
+Run 3
+prepare-file;0;0;18612;36
+seq-write;0;0;18397;4
+seq-read;23027;5;0;0
+rand-4k-write;0;0;1454;363
+rand-4k-read;8023;2005;0;0
+Sequential write speed 18397 KB/sec (target 10000) - PASS
+Random write speed 363 IOPS (target 500) - FAIL
+Random read speed 2005 IOPS (target 1500) - PASS
+```
 
 ## Contributing
 
